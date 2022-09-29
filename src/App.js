@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useEffect, useRef, useState } from "react";
+import data from "./data";
+import { GeneratedText } from "./generated-text";
 function App() {
+  let [text, setText] = useState(data);
+  let [index, setIndex] = useState("");
+  let [isShow, setIsShow] = useState(false);
+  let refContainer = useRef(null);
+  let handleClick = (e) => {
+    e.preventDefault();
+    let number = refContainer.current.value;
+    setIndex(number);
+    setIsShow(true);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <section>
+        <h3 className="heading">tired of boring lorem ipsum?</h3>
+        <form className="form">
+          <label htmlFor="paragraph-number" className="label">
+            paragraphs:{" "}
+          </label>
+          <input
+            type="number"
+            id="paragraph-number"
+            placeholder="0"
+            ref={refContainer}
+          />
+          <button type="submit" className="generate-btn" onClick={handleClick}>
+            generate
+          </button>
+        </form>
+        {isShow && <GeneratedText index={index} text={text} />}
+      </section>
+    </main>
   );
 }
 
